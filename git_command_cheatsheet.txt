@@ -1,0 +1,28 @@
+Creating a new branch:
+Method 1)
+git checkout branch -b <new-branch>
+Method 2)
+git branch <new-branch>
+git checkout <new-branch>
+
+Check status of current branch
+git status
+
+Add changes to branch
+git add . ('.' adds all changes)
+
+Make commit
+git commit (:wq to close the message prompt window)
+git commit -m "commit message"
+
+Push changes
+git push --set-upstream origin <branch-name>
+git push
+
+Pull changes
+git pull
+(after merging changes)
+
+Delete branch
+git branch -d <branch-name>
+
