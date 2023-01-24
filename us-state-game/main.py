@@ -26,7 +26,7 @@ while game_is_on:
     if answer_state == "Exit":
         # List Comprehension
         missing_states = [state for state in all_states if state not in past_guesses]
-        
+
         # For loop
         # for state in all_states:
         #     if state not in past_guesses:
