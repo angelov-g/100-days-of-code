@@ -28,5 +28,5 @@ while True:
 #         generate_phonetic()
 #     else:
 #         print(nato_list)
-#         
+#
 # generate_phonetic()
