@@ -1,0 +1,3 @@
+facebook.com | georgi@email.com | password123
+instagram.com | georgi@email.com | password234
+test | test | test
