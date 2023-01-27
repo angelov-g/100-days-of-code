@@ -27,6 +27,25 @@ def generate_password():
     pyperclip.copy(generated_password)
 
 
+# ---------------------------- FIND PASSWORD ------------------------------- #
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("data.json", mode="r") as user_accounts:
+            data = json.load(user_accounts)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No data file found.")
+    else:
+        if website in data:
+            user_email = data[website]["email"]
+            user_pass = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {user_email}\n"
+                                                       f"Password: {user_pass}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No details for {website} exist.")
+
+
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
     website = website_entry.get()
@@ -82,8 +101,8 @@ lock_image = PhotoImage(file="logo.png")
 canvas.create_image(100, 100, image=lock_image)
 canvas.grid(column=1, row=0)
 
-website_entry = Entry(width=38)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = Entry(width=21)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
 
 username_entry = Entry(width=38)
@@ -98,5 +117,8 @@ add_button.grid(column=1, row=4, columnspan=2)
 
 generate_button = Button(text="Generate Password", command=generate_password)
 generate_button.grid(column=2, row=3)
+
+search_button = Button(text="Search", width=13, command=find_password)
+search_button.grid(column=2, row=1)
 
 window.mainloop()
