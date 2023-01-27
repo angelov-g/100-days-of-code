@@ -45,7 +45,6 @@ def find_password():
             messagebox.showinfo(title="Error", message=f"No details for {website} exist.")
 
 
-
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save():
     website = website_entry.get()
