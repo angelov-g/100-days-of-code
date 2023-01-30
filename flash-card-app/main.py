@@ -5,11 +5,17 @@ import pandas
 BACKGROUND_COLOR = "#B1DDC6"
 LANGUAGE_FONT = ("Ariel", 40, "italic")
 WORD_FONT = ("Ariel", 60, "bold")
+current_card = {}
+to_learn = {}
 
 # -------------------- WORD DATA ------------------- #
-word_df = pandas.read_csv("data/french_words.csv")
-word_dict = word_df.to_dict(orient="records")
-current_card = {}
+try:
+    word_df = pandas.read_csv("data/words_to_learn.csv.csv")
+except FileNotFoundError:
+    original_word_df = pandas.read_csv("data/french_words.csv")
+    word_dict = original_word_df.to_dict(orient="records")
+else:
+    word_dict = word_df.to_dict(orient="records")
 
 
 def next_card():
@@ -35,6 +41,13 @@ def flip_card():
     canvas.itemconfig(card_word, text=english_translation, fill="white")
 
 
+def knows_word():
+    word_dict.remove(current_card)
+    data = pandas.DataFrame(word_dict)
+    data.to_csv("data/words_to_learn.csv", index=False)
+    next_card()
+
+
 # -------------------- UI SETUP -------------------- #
 window = Tk()
 window.title("Flashy")
@@ -55,7 +68,7 @@ canvas.grid(row=0, column=0, columnspan=2)
 
 wrong_button = Button(image=wrong_image, highlightbackground=BACKGROUND_COLOR, command=next_card)
 wrong_button.grid(row=1, column=0)
-right_button = Button(image=right_image, highlightbackground=BACKGROUND_COLOR, command=next_card)
+right_button = Button(image=right_image, highlightbackground=BACKGROUND_COLOR, command=knows_word)
 right_button.grid(row=1, column=1)
 
 next_card()
