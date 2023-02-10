@@ -1,13 +1,19 @@
 # Code doesn't work with OneCall due to API being subscription based now
 
+import os
 import requests
+from twilio.rest import Client
+
+api_key = "TWILIO_API_KEY"
+account_sid = "TWILIO_SID"
+auth_token = "TWILIO_AUTH_TOKEN"
 
 OWM_Endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 
 parameters = {
     "lat": 43.214050,
     "lon": 27.914734,
-    "appid": "10d2b45dd5ae375803d151072d5af8ae"
+    "appid": api_key
 }
 
 response = requests.get(url=OWM_Endpoint, params=parameters)
@@ -23,5 +29,12 @@ for hour_data in weather_slice:
         will_rain = True
 
 if will_rain:
-    print("Bring an umbrella")
-    
+    client = Client(account_sid, auth_token)
+    message = client.messages \
+        .create(
+        body="It's going to rain today. Remember to bring an ☂️",
+        from_="+17575178480",
+        to="+XXXXXXXXX"
+    )
+
+    print(message.status)
