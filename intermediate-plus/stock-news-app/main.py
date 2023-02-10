@@ -37,7 +37,12 @@ difference = abs(yesterday_closing_price - before_yesterday_closing_price)
 diff_percent = (difference / yesterday_closing_price) * 100
 
 if diff_percent > 5:
-    print("Get News")
+    news_response = requests.get(url=NEWS_ENDPOINT, params=news_params)
+    news_response.raise_for_status()
+    news_data = news_response.json()
+    news_articles = news_data["articles"][:3]
+    for article in news_articles:
+        print(article["title"])
 
 # STEP 3: Use twilio.com/docs/sms/quickstart/python
 # Send a separate message with each article's title and description to your phone number. 
