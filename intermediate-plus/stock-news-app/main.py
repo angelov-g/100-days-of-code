@@ -1,6 +1,7 @@
 import requests
 import datetime
 
+up_down = None
 today = datetime.date.today()
 delta = datetime.timedelta(days=1)
 yesterday = today - delta
@@ -20,7 +21,7 @@ stock_params = {
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 NEWS_API_KEY = "bb989c705e85477bb64032e12cd404d0"
 news_params = {
-    "q": COMPANY_NAME,
+    "qInTitle": COMPANY_NAME,
     "apikey": NEWS_API_KEY
 }
 
@@ -33,30 +34,24 @@ yesterday_closing_price = float(yesterday_data["4. close"])
 
 before_yesterday_data = stock_data["Time Series (Daily)"][str(before_yesterday)]
 before_yesterday_closing_price = float(before_yesterday_data["4. close"])
-difference = abs(yesterday_closing_price - before_yesterday_closing_price)
-diff_percent = (difference / yesterday_closing_price) * 100
+difference = yesterday_closing_price - before_yesterday_closing_price
 
-if diff_percent > 5:
+if difference > 0:
+    up_down = "🔺"
+else:
+    up_down = "🔻"
+
+diff_percent = round((difference / yesterday_closing_price) * 100)
+
+if abs(diff_percent) > 1:
     news_response = requests.get(url=NEWS_ENDPOINT, params=news_params)
     news_response.raise_for_status()
     news_data = news_response.json()
     news_articles = news_data["articles"][:3]
-    for article in news_articles:
-        print(article["title"])
+    formatted_articles = [f"{STOCK}{up_down}{diff_percent}%."
+                          f"\nHeadline: {article['title']}."
+                          f"\nBrief: {article['description']}" for article in news_articles]
+    for article in formatted_articles:
+        print(article)
 
-# STEP 3: Use twilio.com/docs/sms/quickstart/python
-# Send a separate message with each article's title and description to your phone number. 
-# HINT 1: Consider using a List Comprehension.
-
-
-# Optional: Format the SMS message like this:
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
 
