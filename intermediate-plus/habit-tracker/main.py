@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 TOKEN = "ajshd18u43j3rowad"
 USERNAME = "angelov-g"
@@ -31,16 +32,19 @@ headers = {
     "X-USER-TOKEN": TOKEN
 }
 
-# CREATE GRAPH available at https://pixe.la/v1/users/angelov-g/graphs/graph1
+# CREATE GRAPH available at https://pixe.la/v1/users/angelov-g/graphs/graph1.html
 # response = requests.post(url=graph_endpoint, json=graph_config, headers=headers)
 # print(response.text)
+
+today = datetime.now().strftime("%Y%m%d")
 
 add_pixel_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
 
 add_pixel_config = {
-    "date": "20230212",
+    "date": today,
     "quantity": "10"
 }
 
-response = requests.post(url=add_pixel_endpoint, json=add_pixel_config, headers=headers)
-print(response.text)
+# ADD PIXEL TO GRAPH
+# response = requests.post(url=add_pixel_endpoint, json=add_pixel_config, headers=headers)
+# print(response.text)
