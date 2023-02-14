@@ -2,6 +2,7 @@ import os
 import requests
 import datetime as dt
 from flight_data import FlightData
+from pprint import pprint
 
 tomorrow_date = dt.datetime.today() + dt.timedelta(days=1)
 six_months_date = tomorrow_date + dt.timedelta(days=180)
@@ -39,15 +40,22 @@ class FlightSearch:
             "max_stopovers": 0,
         }
         response = requests.get(url=f"{tequila_endpoint}/v2/search", params=search_config, headers=headers)
-        result = response.json()['data'][0]
-        flight_data = FlightData(
-            price=result['price'],
-            origin_city=result['cityFrom'],
-            origin_airport=result['flyFrom'],
-            destination_city=result['cityTo'],
-            destination_airport=result['flyTo'],
-            out_date=result['route'][0]['local_departure'].split("T")[0],
-            return_date=result['route'][1]['local_departure'].split("T")[0],
-        )
-        # print(f"{flight_data.destination_city[0]} : £{flight_data.price}")
-        return flight_data
+        try:
+            result = response.json()['data'][0]
+        except IndexError:
+            search_config["max_stopovers"] = 3
+            response = requests.get(url=f"{tequila_endpoint}/v2/search", params=search_config, headers=headers)
+            result = response.json()['data'][0]
+            pprint(result)
+        else:
+            flight_data = FlightData(
+                price=result['price'],
+                origin_city=result['cityFrom'],
+                origin_airport=result['flyFrom'],
+                destination_city=result['cityTo'],
+                destination_airport=result['flyTo'],
+                out_date=result['route'][0]['local_departure'].split("T")[0],
+                return_date=result['route'][1]['local_departure'].split("T")[0],
+            )
+            # print(f"{flight_data.destination_city[0]} : £{flight_data.price}")
+            return flight_data

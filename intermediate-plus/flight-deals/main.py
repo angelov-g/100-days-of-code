@@ -28,7 +28,11 @@ for entry in sheet_data:
 
 for entry in sheet_data:
     flight_data = flight_search.find_flight(entry["iataCode"])
-    if flight_data.price < entry["lowestPrice"]:
-        print(notification_manager.send_notification(flight_data))
+
+    if flight_data is None:
+        continue
+    else:
+        if flight_data.price < entry["lowestPrice"]:
+            print(notification_manager.send_notification(flight_data))
 
 # pprint(sheet_data)
