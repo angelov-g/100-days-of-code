@@ -5,14 +5,21 @@ from pprint import pprint
 
 from data_manager import DataManager
 from flight_search import FlightSearch
+from prices import prices
 
 data_manager = DataManager()
 flight_search = FlightSearch()
 
-sheet_data = data_manager.get_sheet_data()
+# Uncomment when sheety requests are restored
+# sheet_data = data_manager.get_sheet_data()
+
+sheet_data = prices
+pprint(sheet_data)
 
 for entry in sheet_data:
     if entry["iataCode"] == "":
-        entry["iataCode"] = flight_search.get_iata_code()
+        entry["iataCode"] = flight_search.get_iata_code(entry["city"])
 
-data_manager.update_sheet_data(sheet_data)
+pprint(sheet_data)
+
+# data_manager.update_sheet_data(sheet_data)
