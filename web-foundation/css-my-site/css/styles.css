@@ -21,3 +21,7 @@ h1 {
     height: 200px;
     width: 200px;
 }
+
+.wannabe {
+    text-decoration: underline;
+}
