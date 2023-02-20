@@ -1,3 +1,12 @@
-body {
-    background-color: blue;
+body{
+    margin: 0;
+}
+
+div {
+    background-color: #E4E9F5;
+}
+
+h1 {
+    margin-top: 0px;
+
 }
