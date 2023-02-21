@@ -1,28 +1,44 @@
 body{
+    font-family: 'Merriweather', serif;
     margin: 0;
     text-align: center;
-    font-family: 'Merriweather', serif;
 }
 
 h1 {
-    font-size: 5.625rem;
-    margin: 50px auto 0 auto;
+    color: #66BFBF;
     font-family: 'Sacramento', cursive;
+    font-size: 5.625rem;
+    line-height: 2;
+    margin: 50px auto 0 auto;
 }
 
 h2 {
-    font-size: 2.5rem
+    color: #66BFBF;
     font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: normal;
 }
 
 h3 {
+    color: #11999E;
     font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    color: #11999E;
+}
+
+.skill-row {
+    line-height: 2;
+    margin: 100px auto 100px auto;
+    text-align: left;
+    width: 50%;
 }
 
 .top-container {
     background-color: #E4E9F5;
-    position: relative;
     padding-top: 100px;
+    position: relative;
 }
 
 .middle-container {
@@ -43,6 +59,19 @@ h3 {
 
 .bottom-cloud {
     position: absolute;
-    left: 300px;
     bottom: 300px;
+    left: 300px;
+}
+
+.code-img {
+    border-radius: 100%;
+    float: left;
+    margin-right: 30px;
+    width: 25%;
+}
+
+.chilli-img {
+    float: right;
+    margin-left: 30px;
+    width: 25%;
 }
