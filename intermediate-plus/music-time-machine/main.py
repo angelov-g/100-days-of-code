@@ -17,7 +17,6 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY
 
 user_id = sp.current_user()["id"]
 
-# print(sp.current_user())
 # period = input("Which year do you want to travel to? Type the date in this format YYYY-MM-DD: ")
 period = "1998-08-25"
 
@@ -43,4 +42,14 @@ songs = soup.findAll(name="h3", class_="c-title a-no-trucate a-font-primary-bold
 song_names = [song.getText().strip() for song in songs]
 song_names.insert(0, top_song.getText().strip())
 
-# print(song_names)
+song_uris = []
+year = period.split("-")[0]
+for song in song_names:
+    result = sp.search(q=f"track:{song} year:{year}", type="track")
+    try:
+        uri = result["tracks"]["items"][0]["uri"]
+        song_uris.append(uri)
+    except IndexError:
+        print(f"Cannot find '{song}'.")
+
+print(len(song_uris))
