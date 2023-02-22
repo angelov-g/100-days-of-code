@@ -1,8 +1,26 @@
 import requests
+import os
 from bs4 import BeautifulSoup
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
+scope = "playlist-modify-private"
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("SPOTIPY_CLIENT_ID"),
+                                               client_secret=os.environ.get("SPOTIPY_CLIENT_SECRET"),
+                                               redirect_uri="http://example.com",
+                                               scope="playlist-modify-private",
+                                               cache_path="token.txt",
+                                               show_dialog=True
+                                               )
+                     )
+
+user_id = sp.current_user()["id"]
+
+# print(sp.current_user())
 # period = input("Which year do you want to travel to? Type the date in this format YYYY-MM-DD: ")
 period = "1998-08-25"
+
 URL = f"https://www.billboard.com/charts/hot-100/{period}"
 
 response = requests.get(URL)
@@ -25,4 +43,4 @@ songs = soup.findAll(name="h3", class_="c-title a-no-trucate a-font-primary-bold
 song_names = [song.getText().strip() for song in songs]
 song_names.insert(0, top_song.getText().strip())
 
-print(song_names)
+# print(song_names)
