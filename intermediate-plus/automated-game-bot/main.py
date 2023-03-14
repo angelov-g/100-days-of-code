@@ -26,5 +26,27 @@ driver.get("https://www.python.org")
 # documentation_link = driver.find_element(By.CSS_SELECTOR, ".documentation-widget a")
 # print(documentation_link.text)
 
-diversity_link = driver.find_element(By.XPATH, '//*[@id="site-map"]/div[2]/div/ul/li[2]/a')
-print(diversity_link.text)
+# diversity_link = driver.find_element(By.XPATH, '//*[@id="site-map"]/div[2]/div/ul/li[2]/a')
+# print(diversity_link.text)
+
+event_dict = {}
+events = driver.find_elements(By.XPATH, '//*[@id="content"]/div/section/div[2]/div[2]/div/ul/li')
+
+for i in range(5):
+    event_dict[i] = {"time": events[i].text.split("\n")[0], "name": events[i].text.split("\n")[1]}
+
+# Angela's Solution
+# event_times = driver.find_elements(By.CSS_SELECTOR, ".event-widget time")
+# event_names = driver.find_elements(By.CSS_SELECTOR, ".event-widget li a")
+
+# for loop method
+# for n in range(len(event_times)):
+#     event_dict[n] = {
+#         "time": event_times[n].text,
+#         "name": event_names[n].text
+#     }
+
+# dictionary comprehension
+# event_dict = {n: {"time": event_times[n].text, "name": event_names[n].text} for n in range(len(event_times))}
+
+print(event_dict)
