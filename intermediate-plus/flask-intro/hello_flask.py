@@ -7,5 +7,15 @@ def hello_world():
     return 'Hello, World!'
 
 
-# if __name__ == "__main__":
-#     app.run()
+@app.route("/bye")
+def bye():
+    return "Bye"
+
+
+@app.route("/username/<name>/<int:number>")
+def greet(name, number):
+    return f"Hello there {name}, you are {number} years old"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
