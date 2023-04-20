@@ -4,18 +4,29 @@ import requests
 
 app = Flask(__name__)
 
-POSTS_ENDPOINT = "https://api.npoint.io/c790b4d5cab58020d391"
+POSTS_ENDPOINT = "https://api.npoint.io/07c01eb3e07ce1edc506"
 response = requests.get(POSTS_ENDPOINT)
 all_posts = response.json()
+
 posts_list = []
 for post in all_posts:
-    post_object = Post(post["id"], post["title"], post["subtitle"], post["body"])
+    post_object = Post(post["id"], post["title"], post["subtitle"], post["body"], post["date"], post["image_url"])
     posts_list.append(post_object)
 
 
 @app.route("/")
-def home():
-    return render_template("index.html", posts=posts_list)
+def get_home():
+    return render_template("index.html", posts=all_posts)
+
+
+@app.route("/about")
+def get_about():
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def get_contact():
+    return render_template("contact.html")
 
 
 @app.route("/post/<int:post_id>")
