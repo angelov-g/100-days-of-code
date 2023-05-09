@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
@@ -10,8 +11,16 @@ class MyForm(FlaskForm):
     submit = SubmitField(label="Log In")
 
 
-app = Flask(__name__)
-app.secret_key = "any-string-you-want-just-keep-it-secret"
+def create_app():
+    local_app = Flask(__name__)
+    local_app.secret_key = "any-string-you-want-just-keep-it-secret"
+
+    Bootstrap(local_app)
+
+    return local_app
+
+
+app = create_app()
 
 
 @app.route("/")
